@@ -2,6 +2,7 @@ package app.my.weatherx;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -14,11 +15,13 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView bottom_nav_view;
+    private BottomNavigationView bottom_nav_view;
 
-    HomeFragment homeFragment;
-    HistoryFragment historyFragment = new HistoryFragment();
-    AboutFragment aboutFragment = new AboutFragment();
+    private HomeFragment homeFragment;
+    private HistoryFragment historyFragment;
+    private AboutFragment aboutFragment;
+    private Fragment activeFragment;
+
     private int PERMIT_CODE = 1;
 
     @Override
@@ -27,29 +30,50 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_main);
-        homeFragment = new HomeFragment(MainActivity.this);
-        bottom_nav_view = findViewById(R.id.bottom_nav);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
 
+        homeFragment = new HomeFragment(MainActivity.this);
+        historyFragment = new HistoryFragment();
+        aboutFragment = new AboutFragment();
+        activeFragment = homeFragment;
+
+        getSupportFragmentManager().beginTransaction().add(R.id.container, homeFragment).commit();
+
+        bottom_nav_view = findViewById(R.id.bottom_nav);
         bottom_nav_view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+                        switchFragment(homeFragment);
                         return true;
 
                     case R.id.item_about:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, aboutFragment).commit();
+                        switchFragment(aboutFragment);
                         return true;
 
                     case R.id.item_history:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, historyFragment).commit();
+                        switchFragment(historyFragment);
                         return true;
                 }
                 return false;
             }
         });
+    }
+
+    private void switchFragment(Fragment targetFragment) {
+        // Hide the current active fragment
+        getSupportFragmentManager().beginTransaction().hide(activeFragment).commit();
+
+        // Show the selected fragment
+        if (targetFragment.isAdded()) {
+            getSupportFragmentManager().beginTransaction().show(targetFragment).commit();
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, targetFragment).commit();
+        }
+
+        // Update the active fragment
+        activeFragment = targetFragment;
     }
 
     @Override
