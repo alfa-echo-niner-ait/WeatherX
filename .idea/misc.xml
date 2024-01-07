@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/bg_card.xml" value="0.1525" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/ic_search.xml" value="0.1195" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_about.xml" value="0.2484375" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_history.xml" value="0.2484375" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/weather_rv_item.xml" value="0.264" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2484375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
