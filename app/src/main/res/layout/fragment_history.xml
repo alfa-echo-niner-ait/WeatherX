@@ -7,11 +7,23 @@
     tools:context=".HistoryFragment">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:textStyle="bold"
-        android:textSize="30sp"
-        android:text="HISTORY" />
+        android:padding="20dp"
+        android:layout_margin="10dp"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:id="@+id/tv_title"
+        android:text="Location Search History"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:id="@+id/list_item_view"
+        android:padding="5dp" />
 
 </RelativeLayout>

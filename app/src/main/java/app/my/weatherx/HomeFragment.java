@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -87,46 +88,14 @@ public class HomeFragment extends Fragment {
         weatherRCAdapter = new WeatherRCAdapter(requireContext(), weatherRCModalArrayList);
         rv_forecast.setAdapter(weatherRCAdapter);
 
-        // Location & Provider Check
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            // The provider is enabled, proceed to get the last known location
-            // Check if location permissions are granted
-            if (ActivityCompat.checkSelfPermission(context,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(context,
-                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // Permissions not granted, request them
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                        PERMIT_CODE);
-            } else {
-                // Permissions granted, get the last known location
-                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                if (location == null) {
-                    Toast.makeText(context, "Couldn't get location! Loading default.", Toast.LENGTH_SHORT).show();
-                    // Set default location
-                    CITY_NAME = "Qingdao";
-                    get_weather_info(CITY_NAME);
-                    // Continue with your logic here
-                } else {
-                    // Handle the case when the last known location is not available
-                    String get_city = get_city_name(location.getLatitude(), location.getLongitude());
-                    if(get_city.isEmpty()) {
-                        CITY_NAME = "Qingdao";
-                        Toast.makeText(context, "Please check your location permission!", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        CITY_NAME = get_city;
-                        get_weather_info(CITY_NAME);
-                    }
-                }
-            }
+        // Check if fine location permission is granted
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request the fine location permission
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMIT_CODE);
+            getLocationAndGeocode();
         } else {
-            // Handle the case when the provider is not enabled
-            CITY_NAME = "Qingdao";
-            get_weather_info(CITY_NAME);
-            Toast.makeText(context, "Last location unknown! Loading default.", Toast.LENGTH_SHORT).show();
+            // Fine location permission already granted, proceed with geocoding
+            getLocationAndGeocode();
         }
 
         // Listener for search icon click
@@ -134,11 +103,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String city = input_city.getText().toString();
-                if(city.isEmpty()) {
+                if (city.isEmpty()) {
                     Toast.makeText(context, "Please type city name first!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    tv_cityName.setText(city);
+                } else {
                     get_weather_info(city);
                 }
             }
@@ -149,27 +116,60 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void getLocationAndGeocode() {
+        locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        PERMIT_CODE);
+            }
+
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownLocation != null) {
+                double latitude = lastKnownLocation.getLatitude();
+                double longitude = lastKnownLocation.getLongitude();
+
+                String city_name = get_city_name(latitude, longitude);
+                get_weather_info(city_name);
+            }
+            else {
+                Toast.makeText(context, "Last location unknown! Loading default.", Toast.LENGTH_SHORT).show();
+                CITY_NAME = "Beijing"; // Set default location
+                get_weather_info(CITY_NAME);
+            }
+        }
+    }
+
+
     private String get_city_name(double latitude, double longitude) {
-        String city_name = "Not found!";
-        Geocoder geocoder = new Geocoder(getActivity().getBaseContext(), Locale.getDefault());
+        // Default city name
+        String city_name = "";
+        Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
         try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 10);
-            for (Address add : addresses) {
-                if(add != null) {
-                    String city = add.getLocality();
-                    if(city != null && !city.equals("")) {
-                        city_name = city;
-                    }
-                    else {
-                        Toast.makeText(context, "City not found!", Toast.LENGTH_SHORT).show();
-                    }
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                String city = address.getLocality(); // Get the city name
+
+                if (city != null && !city.equals(""))
+                {
+                    city_name = city;
+                    Log.d("City", city);
+                } else {
+                    Toast.makeText(context, "City not found!", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return city_name;
     }
+
 
     private void get_weather_info(String city_name) {
         tv_cityName.setText(city_name);
