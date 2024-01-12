@@ -36,7 +36,15 @@ public class MainActivity extends AppCompatActivity {
         aboutFragment = new AboutFragment();
         activeFragment = homeFragment;
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, homeFragment).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.container, homeFragment).commit();
+        // Add all fragments initially
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, homeFragment)
+                .add(R.id.container, historyFragment)
+                .hide(historyFragment) // Hide initially
+                .add(R.id.container, aboutFragment)
+                .hide(aboutFragment) // Hide initially
+                .commit();
 
         bottom_nav_view = findViewById(R.id.bottom_nav);
         bottom_nav_view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -52,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.item_history:
-                        switchFragment(historyFragment);
+                        switchHistoryFragment(historyFragment);
                         return true;
                 }
                 return false;
@@ -74,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the active fragment
         activeFragment = targetFragment;
+    }
+
+    private void switchHistoryFragment(HistoryFragment historyFragment) {
+        // Hide the current active fragment
+        getSupportFragmentManager().beginTransaction().hide(activeFragment).commit();
+
+        // Show the selected fragment
+        if (historyFragment.isAdded()) {
+            getSupportFragmentManager().beginTransaction().show(historyFragment).commit();
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, historyFragment).commit();
+        }
+
+        // Update the HistoryFragment when a city is added in HomeFragment
+        historyFragment.updateCityList();
+        // Update the active fragment
+        activeFragment = historyFragment;
     }
 
     @Override

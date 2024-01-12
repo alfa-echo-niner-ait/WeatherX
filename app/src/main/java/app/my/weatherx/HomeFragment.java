@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<WeatherRCModal> weatherRCModalArrayList;
     private WeatherRCAdapter weatherRCAdapter;
+    private CityDatabaseHelper databaseHelper;
 
     private LocationManager locationManager;
     private int PERMIT_CODE = 1;
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         // Init all assets
+        databaseHelper = new CityDatabaseHelper(requireContext());
         rl_home = rootView.findViewById(R.id.rl_home);
         prog_loading = rootView.findViewById(R.id.prog_loading);
         tv_cityName = rootView.findViewById(R.id.cityName);
@@ -103,6 +105,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String city = input_city.getText().toString();
+                input_city.setText("");
                 if (city.isEmpty()) {
                     Toast.makeText(context, "Please type city name first!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -170,9 +173,10 @@ public class HomeFragment extends Fragment {
         return city_name;
     }
 
-
     private void get_weather_info(String city_name) {
         tv_cityName.setText(city_name);
+        databaseHelper.insertCity(city_name);
+
         String url = "https://api.weatherapi.com/v1/forecast.json?key=4f4a5599137e4e86bf0163332232312&q=" + city_name + "&days=1&aqi=yes&alerts=yes";
 
         Toast.makeText(context, "Please wait data loading.", Toast.LENGTH_SHORT).show();
@@ -258,4 +262,5 @@ public class HomeFragment extends Fragment {
 
         requestQueue.add(jsonObjectRequest);
     }
+
 }
