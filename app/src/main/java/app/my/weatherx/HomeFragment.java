@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
 
     private RelativeLayout rl_home;
     private ProgressBar prog_loading;
-    private TextView tv_cityName, tv_temp, tv_condition, tv_feel, tv_wind, tv_sunrise, tv_sunset;
+    private TextView tv_cityName, tv_temp, tv_condition, tv_feel, tv_wind, tv_sunrise, tv_sunset, tv_time;
     private TextInputEditText input_city;
     private ImageView img_bg, img_weather, img_search;
     private RecyclerView rv_forecast;
@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment {
         rl_home = rootView.findViewById(R.id.rl_home);
         prog_loading = rootView.findViewById(R.id.prog_loading);
         tv_cityName = rootView.findViewById(R.id.cityName);
+        tv_time = rootView.findViewById(R.id.tv_current_time);
         tv_temp = rootView.findViewById(R.id.count_temperature);
         tv_condition = rootView.findViewById(R.id.text_temperature);
         tv_feel = rootView.findViewById(R.id.text_feel);
@@ -165,7 +166,9 @@ public class HomeFragment extends Fragment {
 
                         try {
                             String name = response.getJSONObject("location").getString("name");
+                            String localtime = response.getJSONObject("location").getString("localtime");
                             tv_cityName.setText(name);
+                            tv_time.setText("Localtime: " + localtime);
                             databaseHelper.insertCity(name);
 
                             String temperature = response.getJSONObject("current").getString("temp_c");
