@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
 
     private RelativeLayout rl_home;
     private ProgressBar prog_loading;
-    private TextView tv_cityName, tv_temp, tv_condition, tv_feel, tv_wind;
+    private TextView tv_cityName, tv_temp, tv_condition, tv_feel, tv_wind, tv_sunrise, tv_sunset;
     private TextInputEditText input_city;
     private ImageView img_bg, img_weather, img_search;
     private RecyclerView rv_forecast;
@@ -80,6 +80,8 @@ public class HomeFragment extends Fragment {
         tv_condition = rootView.findViewById(R.id.text_temperature);
         tv_feel = rootView.findViewById(R.id.text_feel);
         tv_wind = rootView.findViewById(R.id.text_wind);
+        tv_sunrise = rootView.findViewById(R.id.tv_sunrise_time);
+        tv_sunset = rootView.findViewById(R.id.tv_sunset_time);
         input_city = rootView.findViewById(R.id.cityInput);
         img_bg = rootView.findViewById(R.id.bgHomeBlack);
         img_weather = rootView.findViewById(R.id.img_temperature);
@@ -233,6 +235,13 @@ public class HomeFragment extends Fragment {
                             // Get Forecast data
                             JSONObject forecast_object = response.getJSONObject("forecast");
                             JSONObject forecast_day = forecast_object.getJSONArray("forecastday").getJSONObject(0);
+                            JSONObject forecast_astro = forecast_day.getJSONObject("astro");
+
+                            String sunrise = forecast_astro.getString("sunrise");
+                            String sunset = forecast_astro.getString("sunset");
+                            tv_sunrise.setText(sunrise);
+                            tv_sunset.setText(sunset);
+
                             JSONArray forecast_hour = forecast_day.getJSONArray("hour");
                             for (int i=0; i<forecast_hour.length(); i++) {
                                 JSONObject data_hour = forecast_hour.getJSONObject(i);
@@ -240,8 +249,9 @@ public class HomeFragment extends Fragment {
                                 String temp = data_hour.getString("temp_c");
                                 // String cond = data_hour.getJSONObject("condition").getString("text");
                                 String cond_img = data_hour.getJSONObject("condition").getString("icon");
+                                String cond_txt = data_hour.getJSONObject("condition").getString("text");
                                 String wind = data_hour.getString("wind_kph");
-                                weatherRCModalArrayList.add(new WeatherRCModal(temp, time, cond_img, wind));
+                                weatherRCModalArrayList.add(new WeatherRCModal(temp, time, cond_img, cond_txt, wind));
                             }
                             weatherRCAdapter.notifyDataSetChanged();
 

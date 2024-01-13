@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         aboutFragment = new AboutFragment();
         activeFragment = homeFragment;
 
-//        getSupportFragmentManager().beginTransaction().add(R.id.container, homeFragment).commit();
         // Add all fragments initially
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, homeFragment)

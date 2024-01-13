@@ -4,12 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/bg_card.xml" value="0.1525" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/btn_round.xml" value="0.1525" />
         <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/ic_search.xml" value="0.1195" />
-        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/ic_sunrise.xml" value="0.1525" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/drawable/ic_sunset.xml" value="0.1525" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_about.xml" value="0.2484375" />
         <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_history.xml" value="0.2484375" />
-        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Android/WeatherX/app/src/main/res/layout/list_item.xml" value="0.2484375" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/round_button.xml" value="0.2484375" />
+        <entry key="..\:/Android/WeatherX/app/src/main/res/layout/sun_time.xml" value="0.264" />
         <entry key="..\:/Android/WeatherX/app/src/main/res/layout/weather_rv_item.xml" value="0.264" />
         <entry key="..\:/Android/WeatherX/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2484375" />
       </map>

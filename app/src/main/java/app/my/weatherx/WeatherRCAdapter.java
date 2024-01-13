@@ -50,6 +50,7 @@ public class WeatherRCAdapter extends RecyclerView.Adapter<WeatherRCAdapter.View
 
         holder.tv_temp.setText(weatherRCModal.getTemperature() + "°C");
         Picasso.get().load("https:".concat(weatherRCModal.getIcon_img())).into(holder.iv_condition);
+        holder.tv_condition.setText(weatherRCModal.getCondition_hour());
         holder.tv_wind.setText(weatherRCModal.getWind_speed() + " km/h");
     }
 
@@ -60,7 +61,7 @@ public class WeatherRCAdapter extends RecyclerView.Adapter<WeatherRCAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv_time, tv_temp, tv_wind;
+        private TextView tv_time, tv_temp, tv_wind, tv_condition;
         private ImageView iv_condition;
 
         public ViewHolder(@NonNull View itemView) {
@@ -69,6 +70,7 @@ public class WeatherRCAdapter extends RecyclerView.Adapter<WeatherRCAdapter.View
             tv_time = itemView.findViewById(R.id.tv_time);
             tv_temp = itemView.findViewById(R.id.tv_temp);
             tv_wind = itemView.findViewById(R.id.tv_wind);
+            tv_condition = itemView.findViewById(R.id.tv_condition_hour);
             iv_condition = itemView.findViewById(R.id.iv_condition);
         }
     }

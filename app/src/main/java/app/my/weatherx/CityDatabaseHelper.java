@@ -65,4 +65,11 @@ public class CityDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return cityList;
     }
+
+    // Clear database
+    public void removeAll() {
+        SQLiteDatabase db = getReadableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME);
+        db.close();
+    }
 }
