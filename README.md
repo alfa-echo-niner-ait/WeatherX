@@ -1,6 +1,6 @@
 ### WeatherX
 
-Simple android application to show weather forecast based on __WeatherApi.com__ API
+**_WeatherX_** is an Android application developed using Java programming language. Its main purpose is to show the weather forecast of the day based on location. Upon launch and granting location permission, the application will show the forecast of the device’s last known location. Also, users can type and search weather forecasts of any city. The weather data is accessed from the API provided by [__weatherapi.com__](https://www.weatherapi.com). The application the information like current temperature, weather status with feel and wind speed, and also provides information about sunrise, and sunset, and shows a 24-hour forecast. It has also a history section where users’ searched cities are saved in a list.
 
 ### A Group Project by
 
