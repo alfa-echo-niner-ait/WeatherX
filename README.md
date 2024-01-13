@@ -15,12 +15,29 @@
 
 __`Shandong Univerity of Science and Technology`__
 
-### Developed Using
+### Build Tools
 
 - Android Studio Bumblebee | 2021.1.1 Patch 3
 - Gradel Version 7.2
-
+- Dependencies:
   
+  ```gradle
+  dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+  }
+  ```
 
 ### Screenshots
 
