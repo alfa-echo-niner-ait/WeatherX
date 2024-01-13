@@ -3,8 +3,6 @@ package app.my.weatherx;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -38,10 +36,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+
 
 public class HomeFragment extends Fragment {
 
@@ -62,8 +59,8 @@ public class HomeFragment extends Fragment {
     private int PERMIT_CODE = 1;
     private String CITY_NAME;
 
-    public HomeFragment(Context cntex) {
-        this.context = cntex;
+    public HomeFragment(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -116,7 +113,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
         return rootView;
 
     }
@@ -138,8 +134,10 @@ public class HomeFragment extends Fragment {
                 double latitude = lastKnownLocation.getLatitude();
                 double longitude = lastKnownLocation.getLongitude();
 
-                String city_name = get_city_name(latitude, longitude);
-                get_weather_info(city_name);
+                DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                String location_info = decimalFormat.format(latitude) + "," + decimalFormat.format(longitude);
+
+                get_weather_info(location_info);
             }
             else {
                 Toast.makeText(context, "Last location unknown! Loading default.", Toast.LENGTH_SHORT).show();
@@ -150,35 +148,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private String get_city_name(double latitude, double longitude) {
-        // Default city name
-        String city_name = "";
-        Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            if (addresses != null && addresses.size() > 0) {
-                Address address = addresses.get(0);
-                String city = address.getLocality(); // Get the city name
-
-                if (city != null && !city.equals(""))
-                {
-                    city_name = city;
-                    Log.d("City", city);
-                } else {
-                    Toast.makeText(context, "City not found!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return city_name;
-    }
-
     private void get_weather_info(String city_name) {
-        tv_cityName.setText(city_name);
-        databaseHelper.insertCity(city_name);
-
         String url = "https://api.weatherapi.com/v1/forecast.json?key=4f4a5599137e4e86bf0163332232312&q=" + city_name + "&days=1&aqi=yes&alerts=yes";
 
         Toast.makeText(context, "Please wait data loading.", Toast.LENGTH_SHORT).show();
@@ -194,6 +164,10 @@ public class HomeFragment extends Fragment {
                         weatherRCModalArrayList.clear();
 
                         try {
+                            String name = response.getJSONObject("location").getString("name");
+                            tv_cityName.setText(name);
+                            databaseHelper.insertCity(name);
+
                             String temperature = response.getJSONObject("current").getString("temp_c");
                             tv_temp.setText(temperature + "°C");
 
