@@ -15,8 +15,11 @@ Simple android application to show weather forecast based on __WeatherApi.com__ 
 
 __`Shandong Univerity of Science and Technology`__
 
-<img src="https://github.com/alfa-echo-niner-ait/WeatherX/assets/78315132/9cb8adae-53d3-4206-9212-2f77db21b0e1"
+<img src="https://github.com/alfa-echo-niner-ait/WeatherX/assets/78315132/8bf9f5d8-2492-41c1-8758-985034d24b7f"
   alt="Night view" width="420">
 
-<img src="https://github.com/alfa-echo-niner-ait/WeatherX/assets/78315132/e2fcdca5-9db0-4a12-aa9b-ca6e1fcc3752"
+<img src="https://github.com/alfa-echo-niner-ait/WeatherX/assets/78315132/d3506b16-b7de-48d2-91f2-6f63b2b6a905"
 alt="Day view" width="420">
+
+<img src="https://github.com/alfa-echo-niner-ait/WeatherX/assets/78315132/266e90e6-5a20-44eb-bd99-847932d85325"
+alt="History view" width="420">
