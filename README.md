@@ -15,6 +15,13 @@
 
 __`Shandong Univerity of Science and Technology`__
 
+### Developed Using
+
+- Android Studio Bumblebee | 2021.1.1 Patch 3
+- Gradel Version 7.2
+
+  
+
 ### Screenshots
 
 <img src="https://github.com/alfa-echo-niner-ait/WeatherX/assets/78315132/8bf9f5d8-2492-41c1-8758-985034d24b7f"
